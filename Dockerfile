@@ -14,16 +14,16 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 
 
-COPY . /app
+# COPY . /app
 
 
 RUN ls
 
 # Add locally downloaded models
-copy models /app/V3/server
+COPY models /app/V3/server
 
 # RUN chown -R 999 /app && \
 # 	chmod -R 777 /app
 
-CMD cd /app/V3/server && python server.py -cpu
+# CMD cd /app/V3/server && python server.py -cpu
 

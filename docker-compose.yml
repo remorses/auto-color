@@ -8,3 +8,4 @@ services:
             - 8000:80
         volumes:
             - ./results:/app/style2paints/V3/server/results
+            - ./V3/:/src/V3
