@@ -4,9 +4,16 @@ from ai import (
     go_head,
 )
 
+# points are in form of [x, y, r, g, b, 0]
+
+sample_points = [
+    [0.5, 0.25, '77', 'ee', '00',],
+    [0.5, 0.75, '00', '11', 'cc',],
+]
 
 
-
+def a1(room, sketch, method):
+        sketch = from_png_to_jpg(inputfilename)
         improved_sketch = sketch.copy()
         improved_sketch = min_resize(improved_sketch, 512)
         improved_sketch = cv_denoise(improved_sketch)
@@ -18,7 +25,8 @@ from ai import (
         cv2.imwrite(room_path + '/sketch.rendering.jpg', eye_black(color_sketch))
         print('sketch improved')
         
-        
+def a2(path, *, room, ID, sketch, alpha, reference, points, method, lineColor, line):
+        sketch = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
         sketch_1024 = k_resize(sketch, 64)        
         sketch_256 = mini_norm(k_resize(min_k_down(sketch_1024, 2), 16))
         sketch_128 = hard_norm(sk_resize(min_k_down(sketch_1024, 4), 32))
