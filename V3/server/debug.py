@@ -44,3 +44,6 @@ def a2(path, points, ):
         cv2.imwrite( './baby.' + ID + '.jpg', baby)
 
 
+a2('./test.jpg', sample_points)
+
+
