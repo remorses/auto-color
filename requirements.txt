@@ -1,0 +1,12 @@
+tensorflow
+keras
+chainer
+bottle
+gevent
+h5py
+opencv-python
+paste
+scikit-image
+# GPU requirements
+# tensorflow-gpu
+# cupy-cudaXX  # where XX is your cuda version (cupy-cuda90 for cuda 9.0, for example)

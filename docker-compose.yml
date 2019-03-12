@@ -1,0 +1,10 @@
+version: '3.6'
+
+
+services:
+    style2paints:
+        build: .
+        ports:
+            - 8000:80
+        volumes:
+            - ./results:/app/style2paints/V3/server/results
