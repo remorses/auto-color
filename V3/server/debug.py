@@ -46,11 +46,11 @@ def a2(path, points, ):
         cv2.imwrite( './baby.' + ID + '.jpg', baby)
         
         composition = go_gird(sketch=sketch_256, latent=d_resize(baby, sketch_256.shape), hint=ini_hint(sketch_256))
-	    if False:
+        if False:
             composition = emph_line(composition, d_resize(min_k_down(sketch_1024, 2), composition.shape), lineColor)
-	    composition = go_tail(composition)
-	    cv2.imwrite( './composition.' + ID + '.jpg', composition)
-	    print('composition saved')
+        composition = go_tail(composition)
+        cv2.imwrite( './composition.' + ID + '.jpg', composition)
+        print('composition saved')
 
 
 
