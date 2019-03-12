@@ -47,7 +47,7 @@ with tf.device(device_A):
     ip4 = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 4))
     ip3x = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 3))
 
-    girder = load_model('girder.net')
+    girder = load_model('models/girder.net')
     gird_op = (1 - girder([1 - ip1 / 255.0, ip4, 1 - ip3 / 255.0])) * 255.0
 
 
@@ -56,7 +56,7 @@ with tf.device(device_A):
 session.run(tf.global_variables_initializer())
 
 
-girder.load_weights('girder.net')
+girder.load_weights('models/girder.net')
 
 
 
