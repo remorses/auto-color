@@ -44,7 +44,7 @@ with tf.device(device_B):
 
     ip3B = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 3))
 
-    tail = load_model('tail.net')
+    tail = load_model('models/tail.net')
     pads = 7
     tail_op = tail(tf.pad(ip3B / 255.0, [[0, 0], [pads, pads], [pads, pads], [0, 0]], 'REFLECT'))[:, pads*2:-pads*2, pads*2:-pads*2, :] * 255.0
 
@@ -52,7 +52,7 @@ with tf.device(device_B):
 session.run(tf.global_variables_initializer())
 
 
-tail.load_weights('tail.net')
+tail.load_weights('models/tail.net')
 
 
 

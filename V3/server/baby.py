@@ -47,7 +47,7 @@ with tf.device(device_A):
     ip4 = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 4))
     ip3x = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 3))
 
-    baby = load_model('baby.net')
+    baby = load_model('models/baby.net')
     baby_place = tf.concat([- 512 * tf.ones_like(ip4[:, :, :, 3:4]), 128 * tf.ones_like(ip4[:, :, :, 3:4]), 128 * tf.ones_like(ip4[:, :, :, 3:4])], axis=3)
     baby_yuv = RGB2YUV(ip4[:, :, :, 0:3])
     baby_alpha = tf.where(x=tf.zeros_like(ip4[:, :, :, 3:4]), y=tf.ones_like(ip4[:, :, :, 3:4]), condition=tf.less(ip4[:, :, :, 3:4], 128))
@@ -59,7 +59,7 @@ with tf.device(device_A):
 session.run(tf.global_variables_initializer())
 
 
-baby.load_weights('baby.net')
+baby.load_weights('models/baby.net')
 
 
 
