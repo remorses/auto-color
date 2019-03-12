@@ -17,8 +17,6 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 # COPY . /app
 
 
-RUN ls
-
 # Add locally downloaded models
 COPY models /app/V3/server
 
