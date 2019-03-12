@@ -10,4 +10,4 @@ services:
         volumes:
             - ./results:/app/style2paints/V3/server/results
             - ./V3/server:/app/V3/server
-            - ./test.jpg:/app/V3/server/test.jpg
+      
