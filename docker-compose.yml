@@ -4,8 +4,10 @@ version: '3.6'
 services:
     style2paints:
         build: .
+        command: sh -c "cd /app/V3/server && python debug.py"
         ports:
             - 8000:80
         volumes:
             - ./results:/app/style2paints/V3/server/results
             - ./V3/server:/app/V3/server
+            - ./test.jpg:/app/V3/server/test.jpg
