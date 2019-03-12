@@ -10,4 +10,5 @@ services:
         volumes:
             - ./results:/app/style2paints/V3/server/results
             - ./V3/server:/app/V3/server
+            - ./models:/app/V3/server/models
       
