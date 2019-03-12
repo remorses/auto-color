@@ -3,8 +3,6 @@ import cv2
 from skimage.measure import block_reduce
 
 
-
-
 def from_png_to_jpg(map):
     if map.shape[2] ==3:
         return map
