@@ -82,11 +82,12 @@ def handle_sketch_upload_pool():
         print('sketch improved')
     return
 
-
+out = open('debug.txt', 'a+')
 def handle_painting_pool():
     if len(painting_pool) > 0:
         room, ID, sketch, alpha, reference, points, method, lineColor, line = painting_pool[0]
         del painting_pool[0]
+        out.write(json.dumps({'points': points}, indent=4))
         room_path = 'game/rooms/' + room
         print('processing painting in ' + room_path)
         sketch_1024 = k_resize(sketch, 64)
@@ -188,6 +189,7 @@ def request_result():
     points = options["points"]
     for _ in range(len(points)):
         points[_][1] = 1 - points[_][1]
+    out.write(json.dumps({'points': points}, indent=4))
     if options["hasReference"]:
         reference = from_png_to_jpg(get_request_image('reference'))
         cv2.imwrite(room_path + '/reference.' + ID + '.jpg', reference)
@@ -267,4 +269,3 @@ if multiple_process:
     run(host="0.0.0.0", port=80, server='paste')
 else:
     run(host="0.0.0.0", port=8000, server='paste')
-

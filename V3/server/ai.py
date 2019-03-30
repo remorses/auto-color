@@ -47,21 +47,21 @@ with tf.device(device_A):
     ip4 = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 4))
     ip3x = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 3))
 
-    baby = load_model('baby.net')
+    baby = load_model('models/baby.net')
     baby_place = tf.concat([- 512 * tf.ones_like(ip4[:, :, :, 3:4]), 128 * tf.ones_like(ip4[:, :, :, 3:4]), 128 * tf.ones_like(ip4[:, :, :, 3:4])], axis=3)
     baby_yuv = RGB2YUV(ip4[:, :, :, 0:3])
     baby_alpha = tf.where(x=tf.zeros_like(ip4[:, :, :, 3:4]), y=tf.ones_like(ip4[:, :, :, 3:4]), condition=tf.less(ip4[:, :, :, 3:4], 128))
     baby_hint = baby_alpha * baby_yuv + (1 - baby_alpha) * baby_place
     baby_op = YUV2RGB(baby(tf.concat([ip1, baby_hint], axis=3)))
 
-    girder = load_model('girder.net')
+    girder = load_model('models/girder.net')
     gird_op = (1 - girder([1 - ip1 / 255.0, ip4, 1 - ip3 / 255.0])) * 255.0
 
-    reader = load_model('reader.net')
+    reader = load_model('models/reader.net')
     features = reader(ip3 / 255.0)
     featuresx = reader(ip3x / 255.0)
 
-    head = load_model('head.net')
+    head = load_model('models/head.net')
     feed = [1 - ip1 / 255.0, (ip4[:, :, :, 0:3] / 127.5 - 1) * ip4[:, :, :, 3:4] / 255.0]
     for _ in range(len(features)):
         item = keras.backend.mean(features[_], axis=[1, 2])
@@ -69,7 +69,7 @@ with tf.device(device_A):
         feed.append(item * ipa + itemx * (1 - ipa))
     nil0, nil1, head_temp = head(feed)
 
-    neck = load_model('neck.net')
+    neck = load_model('models/neck.net')
     nil2, nil3, neck_temp = neck(feed)
     feed[0] = tf.clip_by_value(1 - tf.image.resize_bilinear(ToGray(VGG2RGB(head_temp) / 255.0), tf.shape(ip1)[1:3]), 0.0, 1.0)
     nil4, nil5, head_temp = neck(feed)
@@ -81,7 +81,7 @@ with tf.device(device_B):
 
     ip3B = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 3))
 
-    tail = load_model('tail.net')
+    tail = load_model('models/tail.net')
     pads = 7
     tail_op = tail(tf.pad(ip3B / 255.0, [[0, 0], [pads, pads], [pads, pads], [0, 0]], 'REFLECT'))[:, pads*2:-pads*2, pads*2:-pads*2, :] * 255.0
 
@@ -89,12 +89,12 @@ with tf.device(device_B):
 session.run(tf.global_variables_initializer())
 
 
-tail.load_weights('tail.net')
-baby.load_weights('baby.net')
-head.load_weights('head.net')
-neck.load_weights('neck.net')
-girder.load_weights('girder.net')
-reader.load_weights('reader.net')
+tail.load_weights('models/tail.net')
+baby.load_weights('models/baby.net')
+head.load_weights('models/head.net')
+neck.load_weights('models/neck.net')
+girder.load_weights('models/girder.net')
+reader.load_weights('models/reader.net')
 
 
 def go_head(sketch, global_hint, local_hint, global_hint_x, alpha):
@@ -125,4 +125,3 @@ def go_baby(sketch, local_hint):
     return session.run(baby_op, feed_dict={
         ip1: sketch[None, :, :, None], ip4: local_hint[None, :, :, :]
     })[0].clip(0, 255).astype(np.uint8)
-
