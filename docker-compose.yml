@@ -4,7 +4,7 @@ version: '3.6'
 services:
     style2paints:
         build: .
-        command: sh -c "cd /app/V3/server && python server.py"
+        command: sh -c "cd /app/V3/server && python paint.py"
         ports:
             - 8000:80
         volumes:
